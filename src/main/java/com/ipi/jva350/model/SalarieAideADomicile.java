@@ -11,7 +11,7 @@ import java.util.Objects;
 @Entity
 public class SalarieAideADomicile {
 
-    public static float CONGES_PAYES_ACQUIS_PAR_MOIS = 2.5f;
+    public static float congesPayesAcquisParMois = 2.5f;
 
 
     @Id
@@ -20,7 +20,7 @@ public class SalarieAideADomicile {
 
     private String nom;
 
-    public static List<DayOfWeek> joursHabituellementTravailles = new ArrayList<>();
+    protected static List<DayOfWeek> joursHabituellementTravailles = new ArrayList<>();
 
     static {
         joursHabituellementTravailles.add(DayOfWeek.MONDAY);
@@ -215,5 +215,33 @@ public class SalarieAideADomicile {
     @Override
     public int hashCode() {
         return Objects.hash(id, nom);
+    }
+
+    public static float getCongesPayesAcquisParMois() {
+        return congesPayesAcquisParMois;
+    }
+
+    public static void setCongesPayesAcquisParMois(float congesPayesAcquisParMois) {
+        SalarieAideADomicile.congesPayesAcquisParMois = congesPayesAcquisParMois;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public static List<DayOfWeek> getJoursHabituellementTravailles() {
+        return joursHabituellementTravailles;
+    }
+
+    public static void setJoursHabituellementTravailles(List<DayOfWeek> joursHabituellementTravailles) {
+        SalarieAideADomicile.joursHabituellementTravailles = joursHabituellementTravailles;
+    }
+
+    public void setMoisDebutContrat(LocalDate moisDebutContrat) {
+        this.moisDebutContrat = moisDebutContrat;
     }
 }

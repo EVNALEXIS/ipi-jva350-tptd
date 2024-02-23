@@ -111,7 +111,7 @@ public class SalarieAideADomicileService {
         LinkedHashSet<LocalDate> joursDecomptes = salarieAideADomicile
                 .calculeJoursDeCongeDecomptesPourPlage(jourDebut, jourFin);
 
-        if (joursDecomptes.size() == 0) {
+        if (joursDecomptes.isEmpty()) {
             throw new SalarieException("Pas besoin de congés !");
         }
 
@@ -120,10 +120,9 @@ public class SalarieAideADomicileService {
                 .isBefore(salarieAideADomicile.getMoisEnCours())) {
             throw new SalarieException("Pas possible de prendre de congé avant le mois en cours !");
         }
-        LinkedHashSet<LocalDate> congesPayesPrisDecomptesAnneeN = new LinkedHashSet<>(joursDecomptes.stream()
+        LinkedHashSet<LocalDate> congesPayesPrisDecomptesAnneeN = joursDecomptes.stream()
                 .filter(d -> !d.isAfter(LocalDate.of(Entreprise.getPremierJourAnneeDeConges(
-                        salarieAideADomicile.getMoisEnCours()).getYear() + 1, 5, 31)))
-                .collect(Collectors.toList()));
+                        salarieAideADomicile.getMoisEnCours()).getYear() + 1, 5, 31))).collect(Collectors.toCollection(LinkedHashSet::new));
         int nbCongesPayesPrisDecomptesAnneeN = congesPayesPrisDecomptesAnneeN.size();
         if (joursDecomptes.size() > nbCongesPayesPrisDecomptesAnneeN + 1) {
             // NB. 1 jour dans la nouvelle année est toujours toléré, pour résoudre le cas d'un congé devant se finir un
@@ -168,7 +167,7 @@ public class SalarieAideADomicileService {
         salarieAideADomicile.setJoursTravaillesAnneeN(salarieAideADomicile.getJoursTravaillesAnneeN() + joursTravailles);
 
         salarieAideADomicile.setCongesPayesAcquisAnneeN(salarieAideADomicile.getCongesPayesAcquisAnneeN()
-                + salarieAideADomicile.CONGES_PAYES_ACQUIS_PAR_MOIS);
+                + salarieAideADomicile.congesPayesAcquisParMois);
 
         salarieAideADomicile.setMoisEnCours(salarieAideADomicile.getMoisEnCours().plusMonths(1));
 

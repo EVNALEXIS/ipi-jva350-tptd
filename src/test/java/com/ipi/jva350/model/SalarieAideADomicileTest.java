@@ -1,14 +1,28 @@
 package com.ipi.jva350.model;
 
+import com.ipi.jva350.repository.SalarieAideADomicileRepository;
+import com.ipi.jva350.service.SalarieAideADomicileService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 public class SalarieAideADomicileTest {
+
+    @Autowired
+    private SalarieAideADomicileService salarieAideADomicileService;
+
+    @Autowired
+    SalarieAideADomicileRepository salarieAideADomicileRepository;
 
     @Test
     public void testALegalementDroitADesCongesPayesDefaultValue() {
@@ -17,7 +31,7 @@ public class SalarieAideADomicileTest {
         // When :
         boolean res = monSalarie.aLegalementDroitADesCongesPayes();
         // Then :
-        Assertions.assertEquals(false, res);
+        Assertions.assertFalse(res);
     }
 
     @Test
@@ -29,7 +43,7 @@ public class SalarieAideADomicileTest {
         // When :
         boolean res = monSalarie.aLegalementDroitADesCongesPayes();
         // Then :
-        Assertions.assertEquals(true, res);
+        Assertions.assertTrue(res);
     }
 
     @Test
@@ -41,7 +55,7 @@ public class SalarieAideADomicileTest {
         // When :
         boolean res = monSalarie.aLegalementDroitADesCongesPayes();
         // Then :
-        Assertions.assertEquals(true, res, "avec 10 jours travaillés en N-1 (au moins), le résultat doit être vrai");
+        Assertions.assertTrue(res, "avec 10 jours travaillés en N-1 (au moins), le résultat doit être vrai");
     }
 
     @Test
@@ -53,7 +67,7 @@ public class SalarieAideADomicileTest {
         // When :
         boolean res = monSalarie.aLegalementDroitADesCongesPayes();
         // Then :
-        Assertions.assertEquals(false, res, "avec 9 jours travaillés en N-1 (au plus), le résultat doit être faux");
+        Assertions.assertFalse(res, "avec 9 jours travaillés en N-1 (au plus), le résultat doit être faux");
     }
 
     @ParameterizedTest
@@ -75,6 +89,24 @@ public class SalarieAideADomicileTest {
                 LocalDate.parse(dateFin));
         // Then :
         Assertions.assertEquals(expectedNb, resNb.size());
+    }
+
+    @Test
+    void testCalculeLimiteEntrepriseCongesPermis() {
+        // Given
+        SalarieAideADomicile salarie = new SalarieAideADomicile();
+        salarie.setNom("Alexis");
+        salarie.setMoisEnCours(LocalDate.parse("2024-02-23"));
+        salarie.setCongesPayesAcquisAnneeNMoins1(25);
+        salarie.setMoisDebutContrat(LocalDate.parse("2023-01-01"));
+        salarieAideADomicileRepository.save(salarie);
+        //When
+        long limiteEntrepriseCongesPermis = salarieAideADomicileService.calculeLimiteEntrepriseCongesPermis(salarie.getMoisEnCours(),
+                salarie.getCongesPayesAcquisAnneeNMoins1(),
+                salarie.getMoisDebutContrat(),LocalDate.parse("2023-01-20"),LocalDate.parse("2023-02-01"));
+
+        // Then
+        Assertions.assertEquals(limiteEntrepriseCongesPermis, 19L);
     }
 
 }

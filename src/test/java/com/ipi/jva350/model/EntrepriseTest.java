@@ -1,5 +1,6 @@
 package com.ipi.jva350.model;
 
+import com.ipi.jva350.service.SalarieAideADomicileService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -38,5 +39,7 @@ public class EntrepriseTest {
         //Then
         assertEquals(expected, verif);
     }
+
+
 
 }
