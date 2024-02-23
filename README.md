@@ -210,5 +210,8 @@ fait des pull request dans le projet choisi, ou rajoute la remote du projet choi
 - BONUS : Créez une petite documentation statique en utilisant MkDocs.
 - Rédigez **ci-dessous** une courte analyse du rapport produit par Sonar (métriques, évolution, état général...) :
 
-Le rapport Sonar final indique...
+Le rapport Sonar final indique 14 code smell mineurs et 1 code smell majeur qui nécessite d'ajouter des tests cucumber.
+Le quality Gate est indiqué en failed dû au code coverage, plusieurs méthodes n'ont pas de tests.
+Les code smell sur la qualité du code ont été corrigés.
+
 
