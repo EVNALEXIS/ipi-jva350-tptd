@@ -19,13 +19,12 @@ import java.util.LinkedHashSet;
 public class SalarieAideADomicileTest {
 
     @Autowired
+    SalarieAideADomicileRepository salarieAideADomicileRepository;
+    @Autowired
     private SalarieAideADomicileService salarieAideADomicileService;
 
-    @Autowired
-    SalarieAideADomicileRepository salarieAideADomicileRepository;
-
     @Test
-    public void testALegalementDroitADesCongesPayesDefaultValue() {
+    void testALegalementDroitADesCongesPayesDefaultValue() {
         // Given :
         SalarieAideADomicile monSalarie = new SalarieAideADomicile();
         // When :
@@ -35,7 +34,7 @@ public class SalarieAideADomicileTest {
     }
 
     @Test
-    public void testALegalementDroitADesCongesPayesNominal() {
+    void testALegalementDroitADesCongesPayesNominal() {
         // Given :
         SalarieAideADomicile monSalarie = new SalarieAideADomicile("Paul",
                 LocalDate.of(2023, 6, 28), LocalDate.now(), 20, 2.5,
@@ -47,7 +46,7 @@ public class SalarieAideADomicileTest {
     }
 
     @Test
-    public void testALegalementDroitADesCongesPayesTrue() {
+    void testALegalementDroitADesCongesPayesTrue() {
         // Given :
         SalarieAideADomicile monSalarie = new SalarieAideADomicile("Paul",
                 LocalDate.of(2023, 6, 28), LocalDate.now(), 20, 2.5,
@@ -59,7 +58,7 @@ public class SalarieAideADomicileTest {
     }
 
     @Test
-    public void testALegalementDroitADesCongesPayesFalse() {
+    void testALegalementDroitADesCongesPayesFalse() {
         // Given :
         SalarieAideADomicile monSalarie = new SalarieAideADomicile("Paul",
                 LocalDate.of(2023, 6, 28), LocalDate.now(), 20, 2.5,
@@ -78,7 +77,7 @@ public class SalarieAideADomicileTest {
             "'2023-12-17', '2023-12-31', 11",
             "'2023-12-17', '2024-01-08', 17"
     })
-    public void testCalculeJoursDeCongeDecomptesPourPlage(String dateDebut, String dateFin, int expectedNb) {
+    void testCalculeJoursDeCongeDecomptesPourPlage(String dateDebut, String dateFin, int expectedNb) {
         // Given :
         SalarieAideADomicile monSalarie = new SalarieAideADomicile("Paul",
                 LocalDate.of(2023, 6, 28), LocalDate.now(), 20, 2.5,
@@ -103,10 +102,10 @@ public class SalarieAideADomicileTest {
         //When
         long limiteEntrepriseCongesPermis = salarieAideADomicileService.calculeLimiteEntrepriseCongesPermis(salarie.getMoisEnCours(),
                 salarie.getCongesPayesAcquisAnneeNMoins1(),
-                salarie.getMoisDebutContrat(),LocalDate.parse("2023-01-20"),LocalDate.parse("2023-02-01"));
+                salarie.getMoisDebutContrat(), LocalDate.parse("2023-01-20"), LocalDate.parse("2023-02-01"));
 
         // Then
-        Assertions.assertEquals(limiteEntrepriseCongesPermis, 19L);
+        Assertions.assertEquals(19L, limiteEntrepriseCongesPermis);
     }
 
 }

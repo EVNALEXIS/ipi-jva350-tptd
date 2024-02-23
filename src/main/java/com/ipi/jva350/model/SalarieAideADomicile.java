@@ -12,14 +12,6 @@ import java.util.Objects;
 public class SalarieAideADomicile {
 
     public static float congesPayesAcquisParMois = 2.5f;
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private String nom;
-
     protected static List<DayOfWeek> joursHabituellementTravailles = new ArrayList<>();
 
     static {
@@ -30,19 +22,25 @@ public class SalarieAideADomicile {
         joursHabituellementTravailles.add(DayOfWeek.FRIDAY);
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String nom;
     private LocalDate moisEnCours;
     private LocalDate moisDebutContrat;
 
-    private double joursTravaillesAnneeN= 0;
-    private double congesPayesAcquisAnneeN= 0;
+    private double joursTravaillesAnneeN = 0;
+    private double congesPayesAcquisAnneeN = 0;
 
-    /** en année N sur l'acquis N-1 */
+    /**
+     * en année N sur l'acquis N-1
+     */
     @Convert(converter = LinkedHashSetStringConverter.class)
     @Column
     private LinkedHashSet<LocalDate> congesPayesPris = new LinkedHashSet<>();
-    private double joursTravaillesAnneeNMoins1= 0;
-    private double congesPayesAcquisAnneeNMoins1= 0;
-    private double congesPayesPrisAnneeNMoins1= 0;
+    private double joursTravaillesAnneeNMoins1 = 0;
+    private double congesPayesAcquisAnneeNMoins1 = 0;
+    private double congesPayesPrisAnneeNMoins1 = 0;
 
     public SalarieAideADomicile() {
     }
@@ -62,13 +60,30 @@ public class SalarieAideADomicile {
         //this.congesPayesPris = congesPayesPris;
     }
 
+    public static float getCongesPayesAcquisParMois() {
+        return congesPayesAcquisParMois;
+    }
+
+    public static void setCongesPayesAcquisParMois(float congesPayesAcquisParMois) {
+        SalarieAideADomicile.congesPayesAcquisParMois = congesPayesAcquisParMois;
+    }
+
+    public static List<DayOfWeek> getJoursHabituellementTravailles() {
+        return joursHabituellementTravailles;
+    }
+
+    public static void setJoursHabituellementTravailles(List<DayOfWeek> joursHabituellementTravailles) {
+        SalarieAideADomicile.joursHabituellementTravailles = joursHabituellementTravailles;
+    }
+
     /**
      * D'après <a href="https://femme-de-menage.ooreka.fr/comprendre/conges-payes-femme-de-menage">...</a> :
      * Pour s'ouvrir des droits à congés payés – capitalisation de jours + prise et/ou paiement – l'aide ménagère doit avoir travaillé pour le particulier employeur :
-     *     pendant au moins dix jours (pas forcément de suite) ;
-     *     à l'intérieur d'une période de temps – dite de « référence » – allant du 1er juin de l'année N au 31 mai de l'année N - 1.
+     * pendant au moins dix jours (pas forcément de suite) ;
+     * à l'intérieur d'une période de temps – dite de « référence » – allant du 1er juin de l'année N au 31 mai de l'année N - 1.
      * NB. on considère que la précédente ligne est correcte d'un point de vue des spécifications métier
      * bien que l'originale dans le lien dit "N+1" au lieu de "N-1"
+     *
      * @return true si le SalarieAideADomicile respecte les conditions pour avoir droit à des congés
      */
     public boolean aLegalementDroitADesCongesPayes() {
@@ -77,7 +92,7 @@ public class SalarieAideADomicile {
 
     /**
      * @param dateDebut date de début de la plage
-     * @param dateFin date de de la plage
+     * @param dateFin   date de de la plage
      * @return les jours de congé décomptés, ordonnés. Leur premier et dernier peuvent être après eux fournis.
      */
     public LinkedHashSet<LocalDate> calculeJoursDeCongeDecomptesPourPlage(LocalDate dateDebut, LocalDate dateFin) {
@@ -95,10 +110,10 @@ public class SalarieAideADomicile {
 
         LocalDate jour = dateDebut;
         if (dateDebut.getDayOfWeek().getValue() != DayOfWeek.SUNDAY.getValue()
-                    && !Entreprise.estJourFerie(dateDebut) && estHabituellementTravaille(dateDebut)) {
+                && !Entreprise.estJourFerie(dateDebut) && estHabituellementTravaille(dateDebut)) {
             joursDeCongeDecomptes.add(dateDebut);
         }
-        for (jour = jour.plusDays(1) ; jour.minusDays(1).isBefore(dateFin)
+        for (jour = jour.plusDays(1); jour.minusDays(1).isBefore(dateFin)
                 || (!estHabituellementTravaille(jour) && estJourOuvrable(jour));
              jour = jour.plusDays(1)) {
             if (jour.getDayOfWeek().getValue() != DayOfWeek.SUNDAY.getValue()
@@ -108,18 +123,22 @@ public class SalarieAideADomicile {
         }
         return joursDeCongeDecomptes;
     }
+
     public boolean estJourOuvrable(LocalDate jour) {
         return jour.getDayOfWeek().getValue() != DayOfWeek.SUNDAY.getValue()
                 && !Entreprise.estJourFerie(jour);
     }
+
     public boolean estHabituellementTravaille(LocalDate jour) {
         return joursHabituellementTravailles.contains(jour.getDayOfWeek());
     }
 
-
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -127,6 +146,10 @@ public class SalarieAideADomicile {
      */
     public String getNom() {
         return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public double getJoursTravaillesAnneeN() {
@@ -140,6 +163,15 @@ public class SalarieAideADomicile {
     public double getCongesPayesAcquisAnneeN() {
         return congesPayesAcquisAnneeN;
     }
+    /*
+    public double getCongesPayesRestantAnneeNMoins1() {
+        return congesPayesRestantAnneeNMoins1;
+    }
+
+    public void setCongesPayesRestantAnneeNMoins1(double congesPayesRestantAnneeNMoins1) {
+        this.congesPayesRestantAnneeNMoins1 = congesPayesRestantAnneeNMoins1;
+    }
+    */
 
     public void setCongesPayesAcquisAnneeN(double congesPayesAcquisAnneeN) {
         this.congesPayesAcquisAnneeN = congesPayesAcquisAnneeN;
@@ -164,15 +196,6 @@ public class SalarieAideADomicile {
     public double getCongesPayesRestantAnneeNMoins1() {
         return this.congesPayesAcquisAnneeNMoins1 - this.getCongesPayesPrisAnneeNMoins1();
     }
-    /*
-    public double getCongesPayesRestantAnneeNMoins1() {
-        return congesPayesRestantAnneeNMoins1;
-    }
-
-    public void setCongesPayesRestantAnneeNMoins1(double congesPayesRestantAnneeNMoins1) {
-        this.congesPayesRestantAnneeNMoins1 = congesPayesRestantAnneeNMoins1;
-    }
-    */
 
     public double getCongesPayesAcquisAnneeNMoins1() {
         return congesPayesAcquisAnneeNMoins1;
@@ -202,6 +225,9 @@ public class SalarieAideADomicile {
         return moisDebutContrat;
     }
 
+    public void setMoisDebutContrat(LocalDate moisDebutContrat) {
+        this.moisDebutContrat = moisDebutContrat;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -215,33 +241,5 @@ public class SalarieAideADomicile {
     @Override
     public int hashCode() {
         return Objects.hash(id, nom);
-    }
-
-    public static float getCongesPayesAcquisParMois() {
-        return congesPayesAcquisParMois;
-    }
-
-    public static void setCongesPayesAcquisParMois(float congesPayesAcquisParMois) {
-        SalarieAideADomicile.congesPayesAcquisParMois = congesPayesAcquisParMois;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public static List<DayOfWeek> getJoursHabituellementTravailles() {
-        return joursHabituellementTravailles;
-    }
-
-    public static void setJoursHabituellementTravailles(List<DayOfWeek> joursHabituellementTravailles) {
-        SalarieAideADomicile.joursHabituellementTravailles = joursHabituellementTravailles;
-    }
-
-    public void setMoisDebutContrat(LocalDate moisDebutContrat) {
-        this.moisDebutContrat = moisDebutContrat;
     }
 }
