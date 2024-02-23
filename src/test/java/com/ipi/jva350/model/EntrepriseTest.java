@@ -26,14 +26,14 @@ public class EntrepriseTest {
 
     @ParameterizedTest
     @CsvSource({
-            "'2023-12-01',  false",
+            "'2024-12-01',  false",
             "'2024-07-01', false",
             "'2024-07-01', false",
             "'2024-01-01', true",
             "'2024-07-14', true"
     })
-    public void estJourFerie(String d, boolean expected){
-        //When
+    public void testEstJourFerie(String d, boolean expected){
+        //
         boolean verif = Entreprise.estJourFerie(LocalDate.parse(d));
         //Then
         assertEquals(expected, verif);
