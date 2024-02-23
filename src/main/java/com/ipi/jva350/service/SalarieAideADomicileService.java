@@ -21,6 +21,7 @@ public class SalarieAideADomicileService {
     private SalarieAideADomicileRepository salarieAideADomicileRepository;
 
     public SalarieAideADomicileService() {
+        // Noncompliant - method is empty
     }
 
     /**

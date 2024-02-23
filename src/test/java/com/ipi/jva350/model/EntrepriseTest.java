@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EntrepriseTest {
+ class EntrepriseTest {
 
     @Test
     void testEstDansPlageTrue() {
@@ -22,7 +22,7 @@ public class EntrepriseTest {
     }
 
     @Test
-    public void testEstDansPlageBorneInferieur() {
+    void testEstDansPlageBorneInferieur() {
         Assertions.assertTrue(Entreprise.estDansPlage(LocalDate.of(2024, 12, 1), LocalDate.of(2024, 12, 1), LocalDate.of(2024, 12, 31)));
     }
 

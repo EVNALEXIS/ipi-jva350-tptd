@@ -211,3 +211,4 @@ fait des pull request dans le projet choisi, ou rajoute la remote du projet choi
 - Rédigez **ci-dessous** une courte analyse du rapport produit par Sonar (métriques, évolution, état général...) :
 
 Le rapport Sonar final indique...
+

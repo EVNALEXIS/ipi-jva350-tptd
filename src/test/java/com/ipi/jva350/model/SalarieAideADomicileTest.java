@@ -16,7 +16,7 @@ import java.util.LinkedHashSet;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class SalarieAideADomicileTest {
+class SalarieAideADomicileTest {
 
     @Autowired
     SalarieAideADomicileRepository salarieAideADomicileRepository;
