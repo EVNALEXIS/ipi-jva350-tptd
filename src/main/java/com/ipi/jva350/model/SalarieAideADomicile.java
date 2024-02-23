@@ -20,7 +20,7 @@ public class SalarieAideADomicile {
 
     private String nom;
 
-    public static List<DayOfWeek> joursHabituellementTravailles = new ArrayList<DayOfWeek>();
+    public static List<DayOfWeek> joursHabituellementTravailles = new ArrayList<>();
 
     static {
         joursHabituellementTravailles.add(DayOfWeek.MONDAY);
@@ -39,7 +39,7 @@ public class SalarieAideADomicile {
     /** en année N sur l'acquis N-1 */
     @Convert(converter = LinkedHashSetStringConverter.class)
     @Column
-    private LinkedHashSet<LocalDate> congesPayesPris = new LinkedHashSet<LocalDate>();
+    private LinkedHashSet<LocalDate> congesPayesPris = new LinkedHashSet<>();
     private double joursTravaillesAnneeNMoins1= 0;
     private double congesPayesAcquisAnneeNMoins1= 0;
     private double congesPayesPrisAnneeNMoins1= 0;
@@ -63,21 +63,21 @@ public class SalarieAideADomicile {
     }
 
     /**
-     * D'après https://femme-de-menage.ooreka.fr/comprendre/conges-payes-femme-de-menage :
+     * D'après <a href="https://femme-de-menage.ooreka.fr/comprendre/conges-payes-femme-de-menage">...</a> :
      * Pour s'ouvrir des droits à congés payés – capitalisation de jours + prise et/ou paiement – l'aide ménagère doit avoir travaillé pour le particulier employeur :
      *     pendant au moins dix jours (pas forcément de suite) ;
      *     à l'intérieur d'une période de temps – dite de « référence » – allant du 1er juin de l'année N au 31 mai de l'année N - 1.
      * NB. on considère que la précédente ligne est correcte d'un point de vue des spécifications métier
      * bien que l'originale dans le lien dit "N+1" au lieu de "N-1"
-     * @return
+     * @return true si le SalarieAideADomicile respecte les conditions pour avoir droit à des congés
      */
     public boolean aLegalementDroitADesCongesPayes() {
         return this.getJoursTravaillesAnneeNMoins1() >= 10;
     }
 
     /**
-     * @param dateDebut
-     * @param dateFin
+     * @param dateDebut date de début de la plage
+     * @param dateFin date de fin de la plage
      * @return les jours de congé décomptés, ordonnés. Leur premier et dernier peuvent être après eux fournis.
      */
     public LinkedHashSet<LocalDate> calculeJoursDeCongeDecomptesPourPlage(LocalDate dateDebut, LocalDate dateFin) {
@@ -122,23 +122,11 @@ public class SalarieAideADomicile {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     /**
      * @return the nom
      */
     public String getNom() {
         return nom;
-    }
-
-    /**
-     * @param nom the nom to set
-     */
-    public SalarieAideADomicile setNom(String nom) {
-        this.nom = nom;
-        return this;
     }
 
     public double getJoursTravaillesAnneeN() {
@@ -214,10 +202,6 @@ public class SalarieAideADomicile {
         return moisDebutContrat;
     }
 
-    public void setMoisDebutContrat(LocalDate moisDebutContrat) {
-        this.moisDebutContrat = moisDebutContrat;
-    }
-    
 
     @Override
     public boolean equals(Object o) {
