@@ -77,7 +77,7 @@ public class SalarieAideADomicile {
 
     /**
      * @param dateDebut date de début de la plage
-     * @param dateFin date de fin de la plage
+     * @param dateFin date de de la plage
      * @return les jours de congé décomptés, ordonnés. Leur premier et dernier peuvent être après eux fournis.
      */
     public LinkedHashSet<LocalDate> calculeJoursDeCongeDecomptesPourPlage(LocalDate dateDebut, LocalDate dateFin) {

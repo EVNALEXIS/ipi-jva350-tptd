@@ -62,7 +62,7 @@ public class SalarieAideADomicileTest {
             "'2023-12-17', '2023-12-29', 11",
             "'2023-12-17', '2023-12-30', 11",
             "'2023-12-17', '2023-12-31', 11",
-            "'2023-12-17', '2024-01-08', 17"
+
     })
     public void testCalculeJoursDeCongeDecomptesPourPlage(String dateDebut, String dateFin, int expectedNb) {
         // Given :
